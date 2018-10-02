@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<div class="w3-container">
+    <br/>
+    <h4 class="w3-text-teal w3-center">Folha de encomendas</h4>
+    
+    <p class="w3-padding w3-small w3-center w3-text-teal">Para finalizar a encomenda tem de dar o nome, um contacto telefonico e um email.
+        Poderá acrescentar mais informação no campo mensagem.</p>
+    
+    <div class="contact w3-container">
+    <div class="w3-row">
+        <div class="w3-col l8">
+            <h4>Encomenda</h4>
+            <table class="w3-table">
+                <thead>
+                    <tr class="w3-green">
+                        <th>Código</th>
+                        <th>Nome do vinho</th>
+                        <th>Qty</th>
+                        <th>Preço unidade</th>
+                        <th>Formato</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="line in shopCart">
+                        <td>{{line.owid}}</td>  
+                        <td>{{line.owname}}</td> 
+                        <td>{{line.owqty}}</td>
+                        <td>{{line.owpricesell|currency:''}} €</td>
+                        <td>{{line.owpackage}}</td>
+                        <td>{{line.owqty * line.owpricesell|currency:''}} €</td>
+                        <td class="fa fa-trash w3-text-red" ng-click="removeLineShopCart(line)"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5"></td>
+                        <td class="w3-large" ng-if="total">Total : {{total|currency:''}} €</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="w3-col l1">&nbsp;</div>
+
+        <div class="w3-col l3">
+            <form ng-submit="sendOrder(o)">
+            <label>Nome: </label>
+            <input class="form-control input-small" type="text" ng-model="o.clientName" required="required"/>
+            <label class="control-label">Telefone: </label>
+            <input class="form-control input-small" type="text" ng-model="o.clientPhone" required="required"/>         
+            <label>Email: </label>
+            <input class="form-control input-small" type="email" ng-model="o.clientEmail" required="required"/>
+            <label>Endereço:</label>
+            <textarea class="form-control input-small" ng-model="o.clientAddress" cols="50" rows="3"></textarea>
+            <br/>
+            <label>Mensagem:</label>
+            <textarea class="form-control input-small" ng-model="o.clientMessage" cols="50" rows="3"></textarea>
+            <br/>
+            <button class="btn-success" type="submit"><span class="glyphicon glyphicon-envelope"></span> Enviar</button>
+            </form>
+        </div>
+    </div>
+        <div class="w3-row">
+            <div class="w3-col l3">&nbsp;</div>
+            <div class="w3-col l6">
+                <br/>
+                <p>Após o envio da encomenda, nós entraremos em contacto para 
+                    confirmação da encomenda e tratar dos detalhes de entrega</p>
+            </div>
+            <div class="w3-col l3">&nbsp;</div>
+
+        </div>
+    </div>
+    
+</div>

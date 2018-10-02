@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<div class="w3-container">
+    <h2 class="w3-center w3-text-orange">Encomendas</h2>
+    <br/>
+    
+    <table class="w3-table-all w3-small w3-hoverable">
+    <thead>
+        <tr class="w3-orange">
+            <th>Nº</th>
+            <th>Nome do cliente</th>
+            <th>Contacto</th>
+            <th>Mensagem</th>
+            <th>Data da encomenda</th>
+            <th>Situação</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="o in orders" ng-click="openOrderDetail(o)">
+            <td>{{o.id}}</td>
+            <td>{{o.clientname}}</td>
+            <td>{{o.clientphone}}</td>
+            <td>{{o.message}}</td>
+            <td>{{o.date}}</td>
+            <td>{{o.status}} - {{o.statusdate}}</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<!--  Modal for edition-->
+<script type="text/ng-template" id="orderModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                Encomenda - {{order.id}}
+                <span class="closeModal" ng-click="closeModal()">X</span>
+            </h3>
+            <h5 class="w3-text-teal">Cliente: {{order.clientname}}</h5>
+        </div>
+        <div class="modal-body w3-container">
+            <table class="w3-table">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome do Vinho</th>
+                    <th>Quantidade</th>
+                    <th>Preço unidade</th>
+                    <th>Formato</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="line in orderdetails">
+                    <td>{{line.owid}}</td>
+                    <td>{{line.owname}}</td>
+                    <td>{{line.owqty}}</td>
+                    <td>{{line.owpricesell}}</td>
+                    <td>{{line.owpackage}}</td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        <div class="modal-footer w3-center">
+            <button ng-click="confOrder(order,order.newStatus='Vista')" class="w3-green">Vista</button>
+            <button ng-click="confOrder(order,order.newStatus='Fechada')" class="w3-blue">Fechar</button>
+        </div>
+</script>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<h1 class="text-center">Catalogo Outros Produtos</h1>
+
+<br/>
+<div class="text-center">
+    <button class="btn btn-info" ng-click="addNewProduct(null)">
+        <span class="glyphicon glyphicon-plus"></span> Nova
+    </button>
+    <input type="text" class="inputLong" ng-model="productSearch" placeholder="pesquisa"/>
+    <span class="glyphicon glyphicon-search"></span>
+</div>
+<br/>
+<div class="container">
+    <table class="table table-condensed table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Foto</th>
+                <th>Codigo</th>
+                <th>Nome</th>
+                <th>Subtitulo</th>
+                <th>Tipo</th>
+                <th>Em destaque</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="product in products | filter:productSearch">
+                <td>
+                    <a ng-click="editProduct(product)">
+                        <img ng-src="../img/{{product.image}}" class="imgSmall" alt="{{product.name}}"/>
+                    </a>
+                </td>
+                <td>{{product.id}}</td>
+                <td>                    
+                    <a ng-click="editProduct(product)">{{product.name}}</a>
+                </td>
+                <td>{{product.subtitle}}</td>
+                <td>{{product.type}}</td>
+                <td>
+                    <button ng-if="product.destak.wid !==0" ng-click="editDestak(product)" class="w3-orange">Remover</button>
+                    <button ng-if="product.destak.wid===0" ng-click="editDestak(product)" class="w3-blue">Destacar</button>
+                </td>
+                <td>
+                    <a ng-click="deleteProduct(product)"><span class="glyphicon glyphicon-trash w3-text-red"></span></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="container text-center">
+    <button class="btn btn-info" ng-click="addNewProduct(null)">
+        <span class="glyphicon glyphicon-plus"></span>
+        Nova
+    </button>
+</div>
+    
+    
+</div>
+
+
+
+<!--  Modal for edition-->
+    <script type="text/ng-template" id="productModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                Catalogo de outros produtos
+                <span class="closeModal" ng-click="closeModal()">X</span>
+            </h3>
+        </div>
+        <div class="modal-body">
+            <div class="loginDiv">
+            <form ng-submit="saveEdit(r)">
+                <label>Nome: </label>
+                <input type="text" class="inputLong" ng-model="r.name" required="required"/>
+                <br/>
+                <label>Subtitulo: </label>
+                <input type="text" class="inputLong" ng-model="r.subtitle"/>
+                <br/>
+                <!-- Load photo of bottle -->
+                <label>Foto: </label>
+                <img style="min-height: 100px; max-width: 120px;  max-height: 120px" ng-src="../img/{{r.image}}" id="image2"/>
+                <input type="file" ng-file-select="onFileSelect2($files)" multiple='false' id="fileSelect" /> 
+                <br/>
+                <label>Tipo: </label>
+                <select ng-model="r.type" id='prt'>
+                    <option value="{{r.type}}" selected="selected">{{r.type}}</option>
+                    <option ng-repeat="ptype in ptypes" value="{{ptype.id}}">{{ptype.type}}</option>
+                </select>
+                <br/>
+                
+                <br/>                
+                <label>Embalagem: </label>
+                <select ng-model="r.packing" id="wpk">
+                    <option value="{{r.packing}}" selected="selected">{{r.pkname}}</option>
+                    <option ng-repeat="pack in packs" value="{{pack.id}}">{{pack.name}}</option>
+                </select> 
+                <br/>  
+                <label>Descrição: </label>
+                <ul>
+                    <li>
+                        <img class="flagxSmall" src="../galery/flagPT.jpg" alt="Português"/>
+                        <input type="text" class="inputLong" ng-model="r.description" placeholder="Português"/>
+                    </li>
+                    <li>
+                        <img class="flagxSmall" src="../galery/flagUK.png" alt="English"/>
+                        <input type="text" class="inputLong" ng-model="r.description_en" placeholder="English"/>
+                    </li>
+                    <li>
+                        <img class="flagxSmall" src="../galery/flagFR.png" alt="Francais"/>
+                        <input type="text" class="inputLong" ng-model="r.description_fr" placeholder="Francais"/>
+                    </li>
+                    <li>
+                        <img class="flagxSmall" src="../galery/flagBE.png" alt="Nerlandais"/>
+                        <input type="text" class="inputLong" ng-model="r.description_be" placeholder="Nerlandais"/>
+                    </li>            
+                </ul>
+                <br/>
+                <label>Preço de Compra: </label>
+                <input type="text" class="inputShort" ng-model="r.pricebuy"/> €
+                <label>Preço de Venda: </label>
+                <input type="text" class="inputShort" ng-model="r.pricesell"/> €
+                <br/>
+                <label>Quantidade disponivel: </label>
+                <input type="text" class="inputShort" ng-model="r.qty"/>
+                <br/>
+                <label>Observações: </label>
+                <input type="text" class="inputLong" ng-model="r.obs"/>
+
+                <br/><br/>
+                <button type="submit" class="btn btn-success">Guardar</button>
+            <form>
+            </div>
+        </div>
+
+    </script>    

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<div class="w3-container">
+    <h3 class="w3-center w3-text-teal">Contactos</h3>
+    <br/>
+
+
+    <table class="w3-table-all w3-small w3-hoverable">
+        <thead>
+            <tr class="w3-teal">
+                <th>Nº</th>
+                <th>Data Contacto</th>
+                <th>Nome do cliente</th>
+                <th>Contacto</th>
+                <th>Mensagem</th>
+                <th>Data da resposta</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="c in contacts">
+                <td>{{c.id}}</td>
+                <td>{{c.contactdate}}</td>
+                <td>{{c.name}}</td>
+                <td>{{c.phone}}</td>
+                <td>{{c.msg}}</td>
+                <td>{{c.answerdate}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

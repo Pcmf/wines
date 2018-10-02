@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<h1 class="text-center">Localidades</h1>
+<table class="table table-condensed table-hover table-striped">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>Localidade</th>
+            <th>Caracateristicas</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="r in data">
+            <td>{{r.id}}</td>
+            <td><a ng-click="showModalLocality(r)">{{r.name}}</a></td>
+            <td>{{r.characteristics}}</td>
+        </tr>
+    </tbody>
+</table>
+<div class="container text-center">
+    <button class="btn btn-info" ng-click="addNewLocality(null)"><span class="glyphicon glyphicon-plus"></span>Nova</button>
+</div>
+
+
+<!--  Modal for edition-->
+    <script type="text/ng-template" id="localityModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                Localidade
+                <span class="closeModal" ng-click="closeModal()">X</span>
+            </h3>
+        </div>
+        <div class="modal-body">
+            <div class="loginDiv">
+            <form ng-submit="saveEdit(r)">
+                <label>Localidade: </label>
+                <input type="text" class="inputLong" ng-model="r.name" required="required"/>
+                <br/><br/>
+                <label>Caracteristicas: </label>
+             <ul>
+                    <li>
+                        <img class="flagxSmall" src="../galery/flagPT.jpg" alt="Português"/>
+                        <input type="text" class="inputLong" ng-model="r.characteristics" placeholder="Português"/>
+                    </li>
+                    <li>
+                        <img class="flagxSmall" src="../galery/flagUK.png" alt="English"/>
+                        <input type="text" class="inputLong" ng-model="r.charact_en" placeholder="English"/>
+                    </li>
+                    <li>
+                        <img class="flagxSmall" src="../galery/flagFR.png" alt="Francais"/>
+                        <input type="text" class="inputLong" ng-model="r.charact_fr" placeholder="Francais"/>
+                    </li>
+                    <li>
+                        <img class="flagxSmall" src="../galery/flagBE.png" alt="Nerlandais"/>
+                        <input type="text" class="inputLong" ng-model="r.charact_be" placeholder="Nerlandais"/>
+                    </li>            
+                </ul>
+                <br/><br/>
+                <button type="submit" class="btn btn-success">Guardar</button>
+            <form>
+            </div>
+        </div>
+
+    </script>    

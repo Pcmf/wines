@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<h1 class="text-center">Vasilhame</h1>
+<table class="table table-condensed table-hover table-striped">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>Vasilhame</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="r in data">
+            <td>{{r.id}}</td>
+            <td><a ng-click="showModalPacking(r)">{{r.name}}</td>
+        </tr>
+    </tbody>
+</table>
+<br/>
+<div class="container text-center">
+    <button class="btn btn-info" ng-click="addNewPacking(null)"><span class="glyphicon glyphicon-plus"></span>Nova</button>
+</div>
+
+    <!--  Modal for edition-->
+    <script type="text/ng-template" id="packingModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                Vasilhame
+                <span class="closeModal" ng-click="closeModal()">X</span>
+            </h3>
+        </div>
+        <div class="modal-body">
+            <div class="loginDiv">
+            <form ng-submit="saveEdit(r)">
+                <label>Capacidade: </label>
+                <input type="text" class="inputLong" ng-model="r.name" required="required"/>
+                <br/><br/>
+                <button type="submit" class="btn btn-success">Guardar</button>
+            <form>
+            </div>
+        </div>
+
+    </script>    

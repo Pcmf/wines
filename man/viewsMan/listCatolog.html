@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<h1 class="text-center">Catalogo Completo</h1>
+
+<br/>
+<div class="text-center">
+    <button class="btn btn-info" ng-click="addNewWine(null)">
+        <span class="glyphicon glyphicon-plus"></span> Nova
+    </button>
+    <input type="text" class="inputLong" ng-model="wineSearch" placeholder="pesquisa"/>
+    <span class="glyphicon glyphicon-search"></span>
+</div>
+<br/>
+<div class="container">
+    <table class="table table-condensed table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Foto</th>
+                <th>Codigo</th>
+                <th>Nome</th>
+                <th>Ano</th>
+                <th>Tipo</th>
+                <th>Região</th>
+                <th>Em destaque</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="wine in wines | filter:wineSearch">
+                <td>
+                    <a ng-click="editWine(wine)">
+                        <img ng-src="../img/{{wine.photobottle}}" class="imgSmall" alt="{{wine.name}}"/>
+                    </a>
+                </td>
+                <td>{{wine.id}}</td>
+                <td>                    
+                    <a ng-click="editWine(wine)">{{wine.name}}</a>
+                </td>
+                <td>{{wine.year}}</td>
+                <td>{{wine.wtname}}</td>
+                <td>{{wine.rname}}</td>
+                <td>
+                    <button ng-if="wine.destak.wid !==0" ng-click="editDestak(wine)" class="w3-orange">Remover</button>
+                    <button ng-if="wine.destak.wid===0" ng-click="editDestak(wine)" class="w3-blue">Destacar</button>
+                </td>
+                <td>
+                    <button ng-if="wine.active" class="btn btn-danger btn-small" ng-click="deleteWine(wine)">Desativar</button>
+                    <button ng-if="wine.active == 0" class="btn btn-success btn-small" ng-click="deleteWine(wine)">Ativar</button>
+                  <!--  <a ng-click="deleteWine(wine)"><span class="glyphicon glyphicon-trash w3-text-red"></span></a> -->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="container text-center">
+    <button class="btn btn-info" ng-click="addNewWine(null)">
+        <span class="glyphicon glyphicon-plus"></span>
+        Nova
+    </button>
+</div>
+    
+    
+</div>
+
+
+
+<!--  Modal for edition-->
+    <script type="text/ng-template" id="wineModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                Catalogo
+                <span class="closeModal" ng-click="closeModal()">X</span>
+            </h3>
+        </div>
+        <div class="modal-body">
+            <div class="loginDiv">
+            <form ng-submit="saveEdit(r)">
+                <label>Nome: </label>
+                <input type="text" class="inputLong" ng-model="r.name" required="required"/>
+                <br/>
+                <label>Subtitulo: </label>
+                <input type="text" class="inputLong" ng-model="r.subtitle"/>
+                <br/>
+                <!-- Load photo of bottle -->
+                <label>Foto: </label>
+                <img style="min-height: 100px; max-width: 120px;  max-height: 120px" ng-src="../img/{{r.photobottle}}" id="image2"/>
+                <input type="file" ng-file-select="onFileSelect2($files)" multiple='false' id="fileSelect" /> 
+                <br/>
+                <label>Tipo: </label>
+                <select ng-model="r.winetype" id='wt'>
+                    <option value="{{r.winetype}}" selected="selected">{{r.wtname}}</option>
+                    <option ng-repeat="wtype in wtypes" value="{{wtype.id}}">{{wtype.name}}</option>
+                </select>
+                <br/>
+                <label>Região: </label>
+                <select ng-model="r.region" id='wr'> 
+                    <option value="{{r.region}}" selected="selected">{{r.rname}}</option>
+                    <option ng-repeat="region in regions" value="{{region.id}}">{{region.name}}</option>
+                </select>                    
+                <br/>
+                <label>Produtor </label>
+                <select ng-model="r.producer" id="wp">
+                    <option value="{{r.producer}}" selected="selected">{{r.pname}}</option>
+                    <option ng-repeat="producer in producers" value="{{producer.id}}">{{producer.name}}</option>
+                </select>                 
+                <br/>
+                <label>Localidade </label>
+                <select ng-model="r.locality">
+                    <option value="{{r.locality}}" selected="selected">{{r.lname}}</option>
+                    <option ng-repeat="locality in localities" value="{{locality.id}}">{{locality.name}}</option>
+                </select> 
+                <br/>
+                <label>Ano: </label>
+                <input type="text" class="inputShort" ng-model="r.year"/>
+                <br/>
+                <label>Castas: </label>
+                <input type="text" class="inputLong" ng-model="r.grapescoll"/>
+                <select ng-model="grapesColl" ng-change="grapesCollUpdate()" multiple="multiple">
+                    <option ng-repeat="grape in grapes" value="{{grape.name}}">{{grape.name}}</option>
+                </select>
+                <br/>
+                <label>Tipo de Solo: </label>
+                <select ng-model="r.soil">
+                    <option value="{{r.soil}}" selected="selected">{{r.sname}}</option>
+                    <option ng-repeat="soil in soils" value="{{soil.id}}">{{soil.name}}</option>
+                </select> 
+                <br/>
+                <label>Teor Alcoólico:</label>
+                <input type = "text" class="inputShort" ng-model="r.alcohol" required/><span>% by VOL</span>
+                <br/>
+                <label>Enologo: </label>
+                <select ng-model="r.oenologist" id="wo">
+                    <option value="{{r.oenologist}}" selected="selected">{{r.oname}}</option>
+                    <option ng-repeat="oenolog in oenologs" value="{{oenolog.id}}">{{oenolog.name}}</option>
+                </select> 
+                <br/>                
+                <label>Embalagem: </label>
+                <select ng-model="r.packing" id="wpk">
+                    <option value="{{r.packing}}" selected="selected">{{r.pkname}}</option>
+                    <option ng-repeat="pack in packs" value="{{pack.id}}">{{pack.name}}</option>
+                </select> 
+                <br/>  
+                <label>Nota de Prova: </label>
+                <ul>
+                    <li>
+                        <img class="flagxSmall" src="../galery/flagPT.jpg" alt="Português"/>
+                        <input type="text" class="inputLong" ng-model="r.tasting" placeholder="Português"/>
+                    </li>
+                    <li>
+                        <img class="flagxSmall" src="../galery/flagUK.png" alt="English"/>
+                        <input type="text" class="inputLong" ng-model="r.tasting_en" placeholder="English"/>
+                    </li>
+                    <li>
+                        <img class="flagxSmall" src="../galery/flagFR.png" alt="Francais"/>
+                        <input type="text" class="inputLong" ng-model="r.tasting_fr" placeholder="Francais"/>
+                    </li>
+                    <li>
+                        <img class="flagxSmall" src="../galery/flagBE.png" alt="Nerlandais"/>
+                        <input type="text" class="inputLong" ng-model="r.tasting_be" placeholder="Nerlandais"/>
+                    </li>            
+                </ul>
+                <br/>
+                <label>Serviço: </label>
+                <ul>
+                    <li>
+                        <img class="flagxSmall" src="../galery/flagPT.jpg" alt="Português"/>
+                        <input type="text" class="inputLong" ng-model="r.service" placeholder="Português"/>
+                    </li>
+                    <li>
+                        <img class="flagxSmall" src="../galery/flagUK.png" alt="English"/>
+                        <input type="text" class="inputLong" ng-model="r.service_en" placeholder="English"/>
+                    </li>
+                    <li>
+                        <img class="flagxSmall" src="../galery/flagFR.png" alt="Francais"/>
+                        <input type="text" class="inputLong" ng-model="r.service_fr" placeholder="Francais"/>
+                    </li>
+                    <li>
+                        <img class="flagxSmall" src="../galery/flagBE.png" alt="Nerlandais"/>
+                        <input type="text" class="inputLong" ng-model="r.service_be" placeholder="Nerlandais"/>
+                    </li>            
+                </ul>
+                <br/>
+                <label>Preço de Compra: </label>
+                <input type="text" class="inputShort" ng-model="r.pricebuy"/> €
+                <label>Preço de Venda: </label>
+                <input type="text" class="inputShort" ng-model="r.pricesell"/> €
+                <br/>
+                <label>Quantidade disponivel: </label>
+                <input type="text" class="inputShort" ng-model="r.qty"/>
+                <br/>
+                <label>Observações: </label>
+                <input type="text" class="inputLong" ng-model="r.obs"/>
+
+                <br/><br/>
+                <button type="submit" class="btn btn-success">Guardar</button>
+            <form>
+            </div>
+        </div>
+
+    </script>    
